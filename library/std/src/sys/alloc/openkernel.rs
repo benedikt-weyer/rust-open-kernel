@@ -70,10 +70,11 @@ pub unsafe fn alloc(layout: Layout) -> *mut u8 {
     }
     NEXT.store(new_break, Ordering::Relaxed);
     unlock();
-    aligned_start as *mut u8
+    ptr::with_exposed_provenance_mut(aligned_start)
 }
 
 #[inline]
+#[allow(dead_code)]
 pub unsafe fn alloc_zeroed(layout: Layout) -> *mut u8 {
     let pointer = unsafe { alloc(layout) };
     if !pointer.is_null() {

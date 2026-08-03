@@ -77,6 +77,7 @@ pub(crate) mod destructors {
         _ => {
             mod list;
             pub(super) use list::register;
+            #[allow(unused_imports)]
             pub(crate) use list::run;
         }
     }

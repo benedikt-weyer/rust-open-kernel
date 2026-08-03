@@ -17,6 +17,7 @@ pub(crate) fn target() -> Target {
         linker_flavor: LinkerFlavor::Gnu(Cc::No, Lld::No),
         linker: Some("ld".into()),
         executables: true,
+        dynamic_linking: true,
         disable_redzone: true,
         has_thread_local: true,
         panic_strategy: PanicStrategy::Abort,

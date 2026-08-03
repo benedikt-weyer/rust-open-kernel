@@ -27,6 +27,7 @@ pub fn errno() -> i32 {
     ERRNO.load(Ordering::Relaxed)
 }
 
+#[allow(dead_code)]
 pub fn set_errno(error: i32) {
     ERRNO.store(error, Ordering::Relaxed);
 }

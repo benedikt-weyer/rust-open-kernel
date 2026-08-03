@@ -37,15 +37,15 @@ pub fn futex_wait(futex: &Atomic<u32>, expected: u32, timeout: Option<Duration>)
         .unwrap_or(NO_TIMEOUT);
     // EAGAIN is a successful non-blocking wake: the value changed between the
     // caller's atomic load and this syscall.
-    syscall3(FUTEX_WAIT, futex.as_ptr() as u64, expected as u64, timeout_ms) != u64::MAX
+    syscall3(FUTEX_WAIT, futex.as_ptr().addr() as u64, expected as u64, timeout_ms) != u64::MAX
 }
 
 #[inline]
 pub fn futex_wake(futex: &Atomic<u32>) -> bool {
-    syscall3(FUTEX_WAKE, futex.as_ptr() as u64, 1, 0) != 0
+    syscall3(FUTEX_WAKE, futex.as_ptr().addr() as u64, 1, 0) != 0
 }
 
 #[inline]
 pub fn futex_wake_all(futex: &Atomic<u32>) {
-    let _ = syscall3(FUTEX_WAKE, futex.as_ptr() as u64, u64::MAX, 0);
+    let _ = syscall3(FUTEX_WAKE, futex.as_ptr().addr() as u64, u64::MAX, 0);
 }

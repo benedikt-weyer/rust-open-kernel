@@ -640,6 +640,7 @@ fn human_readable_target_os(os: Symbol) -> Option<&'static str> {
         None => "bare-metal",
         Nto => "QNX SDP 7.x",
         NuttX => "NuttX",
+        OpenKernel => "Open Kernel",
         OpenBsd => "OpenBSD",
         Psp => "Play Station Portable",
         Psx => "Play Station 1",

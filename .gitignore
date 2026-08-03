@@ -103,4 +103,9 @@ test-dashboard/
 flake.lock
 /default.nix
 
+# Open Kernel std-port development environment is versioned with this fork.
+!/.envrc
+!/flake.nix
+!/flake.lock
+
 # Before adding new lines, see the comment at the top.

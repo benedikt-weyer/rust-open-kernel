@@ -3,6 +3,10 @@ cfg_select! {
         mod hermit;
         pub use hermit::*;
     }
+    target_os = "openkernel" => {
+        mod openkernel;
+        pub use openkernel::*;
+    }
     target_os = "motor" => {
         mod motor;
         pub use motor::*;

@@ -27,6 +27,7 @@ pub fn abort_internal() -> ! {
 pub unsafe fn init(argc: isize, argv: *const *const u8, _sigpipe: u8) {
     unsafe {
         crate::sys::args::init(argc, argv);
+        crate::sys::env::init(argc, argv);
     }
 }
 

@@ -10,6 +10,7 @@
     target_os = "uefi",
     target_os = "wasi",
     target_os = "xous",
+    target_os = "openkernel",
 ))]
 mod common;
 
@@ -52,6 +53,10 @@ cfg_select! {
     target_os = "xous" => {
         mod xous;
         pub use xous::*;
+    }
+    target_os = "openkernel" => {
+        mod openkernel;
+        pub use openkernel::*;
     }
     target_os = "zkvm" => {
         mod zkvm;

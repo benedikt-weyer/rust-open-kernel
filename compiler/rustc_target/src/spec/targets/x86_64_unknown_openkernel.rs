@@ -21,7 +21,7 @@ pub(crate) fn target() -> Target {
         disable_redzone: true,
         has_thread_local: true,
         panic_strategy: PanicStrategy::Abort,
-        code_model: Some(CodeModel::Large),
+        code_model: Some(CodeModel::Small),
         ..Default::default()
     };
     Target {

@@ -18,6 +18,7 @@ pub(crate) fn target() -> Target {
         linker: Some("ld".into()),
         executables: true,
         disable_redzone: true,
+        has_thread_local: true,
         panic_strategy: PanicStrategy::Abort,
         code_model: Some(CodeModel::Large),
         ..Default::default()

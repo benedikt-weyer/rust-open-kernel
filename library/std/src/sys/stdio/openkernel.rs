@@ -35,14 +35,14 @@ impl io::Read for Stdin {
                 break;
             }
             unsafe {
-                cursor.as_mut().as_mut_ptr().add(count).write(key);
+                cursor.as_mut().as_mut_ptr().add(count).write(core::mem::MaybeUninit::new(key));
             }
             count += 1;
             if key == b'\n' {
                 break;
             }
         }
-        unsafe { cursor.advance_unchecked(count) };
+        cursor.advance_checked(count);
         Ok(())
     }
 

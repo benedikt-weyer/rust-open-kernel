@@ -45,6 +45,10 @@ cfg_select! {
         mod zkvm;
         pub use zkvm::*;
     }
+    target_os = "openkernel" => {
+        mod openkernel;
+        pub use openkernel::*;
+    }
     _ => {
         mod unsupported;
         pub use unsupported::*;

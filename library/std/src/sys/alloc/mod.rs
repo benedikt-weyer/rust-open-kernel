@@ -81,6 +81,10 @@ cfg_select! {
         mod hermit;
         use hermit as imp;
     }
+    target_os = "openkernel" => {
+        mod openkernel;
+        use openkernel as imp;
+    }
     target_os = "motor" => {
         mod motor;
         use motor as imp;
@@ -120,6 +124,7 @@ pub use imp::{alloc, dealloc, realloc};
 cfg_select! {
     any(
         target_os = "hermit",
+        target_os = "openkernel",
         target_os = "solid_asp3",
         target_os = "uefi",
         target_os = "zkvm",

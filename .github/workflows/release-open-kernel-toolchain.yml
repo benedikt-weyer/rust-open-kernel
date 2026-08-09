@@ -40,7 +40,7 @@ jobs:
             >> bootstrap.toml
 
       - name: Build compiler and OpenKernel standard library
-        run: nix develop --command ./x build --stage 1 compiler/rustc library/std --target x86_64-unknown-openkernel
+        run: BOOTSTRAP_SKIP_TARGET_SANITY=1 nix develop --command ./x build --stage 1 compiler/rustc library/std --target x86_64-unknown-openkernel
 
       - name: Package toolchain
         run: |

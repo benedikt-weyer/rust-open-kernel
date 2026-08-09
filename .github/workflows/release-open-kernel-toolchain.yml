@@ -1,0 +1,60 @@
+name: Release OpenKernel toolchain
+
+on:
+  push:
+    branches: [open-kernel]
+  workflow_dispatch:
+
+concurrency:
+  group: release-open-kernel-toolchain-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout LLVM
+        run: git submodule update --init --depth 1 src/llvm-project
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Enable Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Configure bootstrap
+        run: |
+          printf '%s\n' \
+            'change-id = "ignore"' \
+            '' \
+            '[llvm]' \
+            'download-ci-llvm = false' \
+            >> bootstrap.toml
+
+      - name: Build compiler and OpenKernel standard library
+        run: nix develop --command ./x build --stage 1 compiler/rustc library/std --target x86_64-unknown-openkernel
+
+      - name: Package toolchain
+        run: |
+          mkdir toolchain
+          cp -a build/x86_64-unknown-linux-gnu/stage1 toolchain/stage1
+          tar -C toolchain -czf open-kernel-stage1-x86_64-unknown-linux-gnu.tar.gz stage1
+          sha256sum open-kernel-stage1-x86_64-unknown-linux-gnu.tar.gz > open-kernel-stage1-x86_64-unknown-linux-gnu.tar.gz.sha256
+
+      - name: Release toolchain
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: open-kernel-toolchain-${{ github.sha }}
+          target_commitish: ${{ github.sha }}
+          name: OpenKernel toolchain ${{ github.sha }}
+          files: |
+            open-kernel-stage1-x86_64-unknown-linux-gnu.tar.gz
+            open-kernel-stage1-x86_64-unknown-linux-gnu.tar.gz.sha256
